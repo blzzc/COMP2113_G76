@@ -66,3 +66,34 @@ See ChunLui 3036620636
 Zeng Jingda 3036519473
 - [@xumuchixu-star](https://github.com/xumuchixu-star) Xu Muchi 3036484032
 
+## File Structure Overview
+```text
+.
+├── Common.h
+├── Event.cpp
+├── Event.h
+├── Game.cpp
+├── Game.h
+├── Item.cpp
+├── Item.h
+├── Makefile
+├── Map.cpp
+├── Map.h
+├── MiniGame.cpp
+├── MiniGame.h
+├── Player.cpp
+├── Player.h
+├── README.md
+├── SaveSystem.cpp
+├── SaveSystem.h
+├── data
+│   └── save.txt
+├── main.cpp
+└── maps
+    ├── easy_past.txt
+    ├── easy_present.txt
+    ├── hard_past.txt
+    ├── hard_present.txt
+    ├── normal_past.txt
+    └── normal_present.txt
+```
