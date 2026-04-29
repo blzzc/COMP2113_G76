@@ -60,7 +60,7 @@ it means the game is already compiled successfully.
 
 ## Authors
 
-- [@OLDHUNTER-111](https://github.com/jackshisupreme-lgtm)
+- [@OLDHUNTER-111](https://github.com/OLDHUNTER-S)
 See ChunLui 3036620636
 - [@Blzzc](https://www.github.com/blzzc)
 Zeng Jingda 3036519473
