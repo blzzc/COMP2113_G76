@@ -97,3 +97,9 @@ Zeng Jingda 3036519473
     ├── normal_past.txt
     └── normal_present.txt
 ```
+## Gameplay Instructions
+1. Choose **New Game**.
+2. Select game mode, then difficulty.
+3. Use `W/A/S/D` to move and `T` to switch timelines.
+4. Collect `K`, activate `S`, and pass opened route to reach `X`.
+5. Use `V` to save, `L` to load, `H` for help, `Q` to quit run.
