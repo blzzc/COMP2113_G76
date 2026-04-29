@@ -54,7 +54,8 @@ it means the game is already compiled successfully.
 - Avoid being caught; open route and reach `X` to win.
 ## Screenshots
 
-![App Screenshot](https://dummyimage.com/468x300?text=App+Screenshot+Here)
+<img width="1582" height="676" alt="Echoes of Time" src="https://github.com/user-attachments/assets/e08748b8-8246-48d2-b6d7-f0dee372f714" />
+
 
 
 ## Authors
