@@ -3,7 +3,7 @@
 ## Team Members
 - Member 1: Max Zeng Jingda 3036519473
 - Member 2: Eric 
-- Member 3: Jack
+- Member 3: Jack See ChunLui 3036620636
 
 ## Team Contribution Plan (3 Members)
 - Member 1 (Core Engine): game loop, timeline switching, movement/collision, win/lose checks.
