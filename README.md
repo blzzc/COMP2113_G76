@@ -97,6 +97,21 @@ Zeng Jingda 3036519473
     ├── normal_past.txt
     └── normal_present.txt
 ```
+## Features Implemented
+- Two linked world states: Past and Present
+- Three gameplay modes: Casual / Time Trial / Sentinel Chase
+- ASCII grid map rendered in terminal
+- ANSI color highlighting for map symbols and HUD
+- HP and energy bars for clearer status display
+- Player movement using `W`, `A`, `S`, `D`
+- Timeline switching using `T`
+- Key, switch, door, and exit puzzle system
+- Random event system
+- Four random terminal mini-games for Time Trial mode
+- Sentinel detection + chase system in Sentinel Chase mode
+- Save/load system using `data/save.txt`
+- Three difficulty modes: Easy, Normal, Hard
+- Win and lose conditions
 ## Gameplay Instructions
 1. Choose **New Game**.
 2. Select game mode, then difficulty.
