@@ -66,7 +66,7 @@ See ChunLui 3036620636
 Zeng Jingda 3036519473
 - [@xumuchixu-star](https://github.com/xumuchixu-star) Xu Muchi 3036484032
 
-## File Structure Overview
+## Project Structure
 ```text
 .
 ├── Common.h
