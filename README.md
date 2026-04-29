@@ -1,9 +1,9 @@
 # Echoes of Time
 
 ## Team Members
-- Member 1: ____________________
-- Member 2: ____________________
-- Member 3: ____________________
+- Member 1: Max Zeng Jingda 3036519473
+- Member 2: Eric 
+- Member 3: Jack
 
 ## Team Contribution Plan (3 Members)
 - Member 1 (Core Engine): game loop, timeline switching, movement/collision, win/lose checks.
