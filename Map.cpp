@@ -284,20 +284,24 @@ void Map::setTileBoth(int row, int col, char tile) {
  * Outputs: true when the tile is currently walkable.
  */
 bool Map::isWalkable(Timeline timeline, int row, int col, bool hasKey, bool switchActive) const {
-    char tile = getTile(timeline, row, col);
+    const char tile = getTile(timeline, row, col);
 
+    // 墙壁永远不可走
     if (tile == '#') {
         return false;
     }
 
+    // 门由开关控制
     if (tile == 'D') {
         return switchActive;
     }
 
+    // 出口需要钥匙
     if (tile == 'X') {
         return hasKey;
     }
 
+    // 其他地块默认可通行
     return true;
 }
 
@@ -311,7 +315,7 @@ std::string Map::getBlockReason(Timeline timeline, int row, int col, bool hasKey
         return "A distorted wall blocks your path.";
     }
 
-    char tile = getTile(timeline, row, col);
+    const char tile = getTile(timeline, row, col);
 
     if (tile == '#') {
         return "A solid wall blocks the way in this timeline.";
