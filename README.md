@@ -105,10 +105,10 @@ it means the game is already compiled successfully.
 ## Authors
 
 - [@OLDHUNTER-111](https://github.com/OLDHUNTER-S)
-See ChunLui 3036620636
+See ChunLui 3036620636:Gameplay and Presentation Layer
 - [@Blzzc](https://www.github.com/blzzc)
-Zeng Jingda 3036519473
-- [@xumuchixu-star](https://github.com/xumuchixu-star) Xu Muchi 3036484032
+Zeng Jingda 3036519473:Overall Control
+- [@xumuchixu-star](https://github.com/xumuchixu-star) Xu Muchi 3036484032:Map and Data Layer
 
 ## Project Structure
 ```text
