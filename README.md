@@ -56,6 +56,46 @@ it means the game is already compiled successfully.
 - Sentinel in current timeline can detect and chase the player.
 - Switching timeline pauses the previous timeline sentinel and activates the other one.
 - Avoid being caught; open route and reach `X` to win.
+
+## Functionalities 
+✨ **Data structures for storing data**
+- Core structures: Position, Timeline, Difficulty
+
+🎲 **Generation of random events**
+- Random event selection using randomEngine_ in selectedEvent() (Game.cpp) 
+- Random patrol movement for the sentinel AI
+
+🧠 **Dynamic memory management**
+- Dynamic object allocation and deallocation using new and delete in Game.cpp
+
+📂 **File input/output**
+- Clean and formatted input/output interface
+- Save game progress: saveCurrentGame() (Game.cpp)
+- Load map data: loadFromFiles() (Map.cpp)
+
+📁 **Program codes in multiple files**
+- Modular structure: player, map, minigame, event, and more
+
+⚔️ **Multiple Difficulty Levels**
+- 3 levels: Easy / Normal / Hard
+- Differences in health, energy, and event effects
+
+## 🔥 Special Features
+
+🎨 **Color & Output System**
+- Unique colors for locations, health bar, and energy bar
+- Auto-refreshing UI with classic arcade style
+
+🎭 **Random Events & AI Sentinel**
+- Diverse random events enhance replayability
+- Sentinel uses BFS pathfinding for intelligent chasing
+
+🕰️ **Interesting Game Mechanics**
+- Dual parallel timelines (Past / Present)
+- Multiple special locations on the map
+- Built-in mini-games for extra challenges
+- Three distinct game modes and three difficulty levels
+
 ## Screenshots
 
 <img width="1582" height="676" alt="Echoes of Time" src="https://github.com/user-attachments/assets/e08748b8-8246-48d2-b6d7-f0dee372f714" />
