@@ -14,15 +14,19 @@ sudo apt update
 sudo apt install build-essential
 ``
 ```
-2.Enter the Project Directory
+2.Download the project from GitHub
 ```bash
-cd "/document location"
+git clone https://github.com/blzzc/COMP2113_G76.git
 ```
-3.Clean old files
+3.Enter the Project Directory
+```bash
+cd COMP2113_G76
+```
+4.Clean old files
 ```bash
 rm -f game *.o
 ```
-4.Compile the game
+5.Compile the game
 ```bash
 make
 ```
