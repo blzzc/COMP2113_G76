@@ -1,0 +1,33 @@
+difficulty EASY
+mode CASUAL
+timeline PAST
+row 1
+col 1
+hp 14
+max_hp 14
+energy 8
+max_energy 8
+switch_active 0
+moves 0
+remaining_time 0
+past_sentinel 0 0 0 0 0
+present_sentinel 0 0 0 0 0
+inventory_entries 0
+past_rows 8
+#############
+#.....#.....#
+#.##.#.######
+#....#..DX..#
+###.#########
+#K..S.......#
+#...?..^....#
+#############
+present_rows 8
+#############
+#..##.#.....#
+#..##.#.#####
+##...#..DX..#
+#.#.###.#####
+#...S.......#
+#...?..E....#
+#############
