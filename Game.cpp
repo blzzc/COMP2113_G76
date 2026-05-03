@@ -198,6 +198,7 @@ void Game::run() {
     bool programRunning = true;
 
     while (programRunning) {
+        // 这里就是最外层 loop, basically whole program keeps spinning here.
         clearScreen();
         showMainMenu();
 
@@ -361,6 +362,7 @@ bool Game::promptForGameMode(GameMode& mode) const {
 bool Game::startNewGame(Difficulty difficulty, GameMode mode) {
     clearResources();
 
+    // 先把这一局的 runtime state reset 掉，不然上一局残留会很怪。
     difficulty_ = difficulty;
     mode_ = mode;
     switchActive_ = false;
@@ -371,6 +373,7 @@ bool Game::startNewGame(Difficulty difficulty, GameMode mode) {
     eventLog_.clear();
 
     DifficultySettings settings = getSettings(difficulty);
+    // 这里还是用 new 开对象, assignment 也比较好解释 dynamic memory 这块.
     player_ = new Player(settings.startHp, settings.startEnergy);
     map_ = new Map();
     eventManager_ = new EventManager();
@@ -390,6 +393,7 @@ bool Game::startNewGame(Difficulty difficulty, GameMode mode) {
     }
 
     applyRunVariation();
+    // map load 完再放 player, 不然 start position 还没 ready.
     player_->setPosition(map_->getStartPosition());
     initializeModeState();
     addLog("You awaken in the fractured ruin. Find the Time Key and escape.");
@@ -427,6 +431,7 @@ bool Game::loadSavedGame() {
 bool Game::applySaveData(const SaveData& data, std::string& errorMessage) {
     clearResources();
 
+    // load 档的时候基本就是把 runtime world 整个 rebuild 一次.
     difficulty_ = data.difficulty;
     mode_ = data.mode;
     currentTimeline_ = data.timeline;
@@ -685,7 +690,7 @@ void Game::renderGame() const {
 /**
  * Processes one player command.
  * Inputs: command character.
- * Outputs: none.
+ * Outputs:   none.
  */
 void Game::processCommand(char command) {
     bool consumedTurn = false;
@@ -729,6 +734,7 @@ bool Game::attemptMove(int rowDelta, int colDelta) {
     int nextRow = currentPosition.row + rowDelta;
     int nextCol = currentPosition.col + colDelta;
 
+    // 先 check walkable, 不给穿墙 and 不给硬闯 locked stuff.
     if (!map_->isWalkable(currentTimeline_, nextRow, nextCol, player_->hasItem("TimeKey"), switchActive_)) {
         addLog(map_->getBlockReason(currentTimeline_, nextRow, nextCol, player_->hasItem("TimeKey"), switchActive_));
         return false;
@@ -753,6 +759,7 @@ bool Game::attemptMove(int rowDelta, int colDelta) {
 bool Game::attemptTimelineSwitch() {
     DifficultySettings settings = getSettings(difficulty_);
 
+    // switch 不是 free 的, 要扣 energy, 不然这个 mechanic 会太赖皮.
     if (player_->getEnergy() < settings.switchCost) {
         addLog("Not enough energy to switch timelines.");
         return false;
@@ -767,6 +774,7 @@ bool Game::attemptTimelineSwitch() {
     }
 
     player_->changeEnergy(-settings.switchCost);
+    // 真正切 timeline 就在这, 位置不变 only world layer changes.
     currentTimeline_ = targetTimeline;
 
     if (currentTimeline_ == Timeline::PAST) {
@@ -789,6 +797,7 @@ void Game::handleTile(char tile) {
     Position position = player_->getPosition();
     DifficultySettings settings = getSettings(difficulty_);
 
+    // tile effect 全部集中在这里处理, later debug 起来会比较顺.
     if (tile == 'K' && !player_->hasItem("TimeKey")) {
         player_->addItem(createItemById("TimeKey"));
         map_->setTileBoth(position.row, position.col, '.');
@@ -801,9 +810,11 @@ void Game::handleTile(char tile) {
             addLog("The switch is already active.");
         }
     } else if (tile == '?') {
+        // 这个 tile 基本是 one-time trigger, 踩完就清掉.
         map_->setTile(currentTimeline_, position.row, position.col, '.');
 
         if (mode_ == GameMode::TIME_TRIAL) {
+            // Time Trial 给 mini-game, 比普通 random event 更有 pressure.
             MiniGameResult result = miniGameManager_->playRandomMiniGame(difficulty_);
             addLog("Mini-game - " + result.name + ": " + result.summary);
             applyTimePenalty(result.timePenaltySeconds, result.won ? "You cleared the challenge, but the clock still advances." : "You fail the challenge and lose precious time.");
@@ -811,6 +822,7 @@ void Game::handleTile(char tile) {
             addLog(eventManager_->triggerRandomEvent(*player_));
         }
     } else if (tile == '^') {
+        // trap damage 走 difficulty settings, so easy/hard 差别会很明显.
         int damage = randomInt(settings.trapMinDamage, settings.trapMaxDamage);
         player_->changeHp(-damage);
         addLog("A trap pierces the floor beneath you. HP -" + std::to_string(damage) + ".");
@@ -1043,6 +1055,7 @@ void Game::applyRunVariation() {
         return;
     }
 
+    // 这里做一点点 random shuffle, so each run not 100% same same.
     Position start = map_->getStartPosition();
     bool changedAny = false;
     const Timeline timelines[2] = {Timeline::PAST, Timeline::PRESENT};
@@ -1079,10 +1092,12 @@ void Game::applyRunVariation() {
             continue;
         }
 
+        // 先清原位, then later put those danger/event tiles somewhere else.
         for (std::size_t index = 0; index < sourcePositions.size(); ++index) {
             map_->setTile(timeline, sourcePositions[index].row, sourcePositions[index].col, '.');
         }
 
+        // shuffle 完再塞回去, 有点像 lightweight reroll.
         std::shuffle(candidateFloorTiles.begin(), candidateFloorTiles.end(), randomEngine_);
         std::shuffle(sourceTiles.begin(), sourceTiles.end(), randomEngine_);
         std::size_t placeCount = std::min(candidateFloorTiles.size(), sourceTiles.size());
@@ -1317,6 +1332,7 @@ bool Game::isSentinelDetectionTriggered(const SentinelState& sentinel, Timeline 
     int rowDifference = std::abs(playerPosition.row - sentinel.position.row);
     int colDifference = std::abs(playerPosition.col - sentinel.position.col);
 
+    // 这里不是圆形范围, 是 square-ish scan, 写起来简单也够用.
     bool insideCloseScan = rowDifference <= settings.sentinelCloseSquareRadius
         && colDifference <= settings.sentinelCloseSquareRadius;
 
@@ -1343,6 +1359,7 @@ bool Game::findNextStepByBfs(Timeline timeline,
 
     int height = static_cast<int>(grid.size());
     int width = static_cast<int>(grid[0].size());
+    // BFS here because I just need shortest path on grid, simple and稳.
     std::vector<std::vector<bool> > visited(height, std::vector<bool>(width, false));
     std::vector<std::vector<Position> > parent(height, std::vector<Position>(width, Position{-1, -1}));
     std::queue<Position> pending;
@@ -1413,6 +1430,7 @@ void Game::moveSentinelTowardPlayer(SentinelState& sentinel, int steps) {
         return;
     }
 
+    // steps 可能 > 1, 所以 sentinel 有机会一口气贴上来.
     for (int step = 0; step < steps; ++step) {
         Position playerPosition = player_->getPosition();
         if (samePosition(sentinel.position, playerPosition)) {
@@ -1443,6 +1461,7 @@ int Game::sentinelMovesAvailable(Timeline timeline, const SentinelState& sentine
         return 0;
     }
 
+    // 守卫速度不是按 turn, 是按 real time 算 elapsed ms.
     DifficultySettings settings = getSettings(difficulty_);
     int periodMs = std::max(100, settings.sentinelMovePeriodMs);
     int movesPerTick = std::max(1, settings.sentinelMovesPerTick);
@@ -1469,6 +1488,7 @@ void Game::updateSentinelChase() {
         return;
     }
 
+    // only update current timeline sentinel, 另一个 timeline 的先当作 pause.
     Timeline activeTimeline = currentTimeline_;
     SentinelState& sentinel = sentinelForTimeline(activeTimeline);
     if (!sentinel.exists) {
@@ -1486,6 +1506,7 @@ void Game::updateSentinelChase() {
     DifficultySettings settings = getSettings(difficulty_);
     if (!sentinel.alerted && isSentinelDetectionTriggered(sentinel, activeTimeline, playerPosition)) {
         sentinel.alerted = true;
+        // 这里故意回拨 clock, so detected 后 almost immediately starts moving.
         sentinelClockForTimeline(activeTimeline) = std::chrono::steady_clock::now()
             - std::chrono::milliseconds(std::max(100, settings.sentinelMovePeriodMs));
         addLog("A sentinel detects you and starts active pursuit.");
